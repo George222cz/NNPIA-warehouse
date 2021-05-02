@@ -1,0 +1,8 @@
+package cz.upce.warehouse.repository;
+
+import cz.upce.warehouse.entity.Transfer;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TransferRepository extends JpaRepository<Transfer,Long> {
+
+}

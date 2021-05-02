@@ -21,7 +21,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
-    private PermissionEnum permission;
+    private RoleEnum role;
 
     public Long getId() {
         return id;
@@ -55,12 +55,12 @@ public class User {
         this.phone = phone;
     }
 
-    public PermissionEnum getPermission() {
-        return permission;
+    public RoleEnum getRole() {
+        return role;
     }
 
-    public void setPermission(PermissionEnum permission) {
-        this.permission = permission;
+    public void setRole(RoleEnum role) {
+        this.role = role;
     }
 
     public Set<Transfer> getTransfers() {
