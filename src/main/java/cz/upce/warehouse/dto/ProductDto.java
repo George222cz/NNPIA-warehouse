@@ -1,6 +1,6 @@
 package cz.upce.warehouse.dto;
 
-public class AddProductDto {
+public class ProductDto {
 
     private Long id;
 
@@ -12,7 +12,7 @@ public class AddProductDto {
 
     private Integer unitWeight;
 
-    private Long warehouse;
+    private Long warehouseId;
 
     public Long getId() {
         return id;
@@ -54,11 +54,11 @@ public class AddProductDto {
         this.unitWeight = unitWeight;
     }
 
-    public Long getWarehouse() {
-        return warehouse;
+    public Long getWarehouseId() {
+        return warehouseId;
     }
 
-    public void setWarehouse(Long warehouse) {
-        this.warehouse = warehouse;
+    public void setWarehouseId(Long warehouseId) {
+        this.warehouseId = warehouseId;
     }
 }

@@ -1,5 +1,8 @@
 package cz.upce.warehouse.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -14,7 +17,7 @@ public class Warehouse {
 
     private String address;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "warehouse")
     private Set<Product> products;
 
     public Long getId() {

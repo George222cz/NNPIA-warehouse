@@ -1,6 +1,6 @@
 package cz.upce.warehouse.controller;
 
-import cz.upce.warehouse.dto.AddProductDto;
+import cz.upce.warehouse.dto.ProductDto;
 import cz.upce.warehouse.entity.Product;
 import cz.upce.warehouse.entity.Warehouse;
 import cz.upce.warehouse.repository.ProductRepository;
@@ -24,6 +24,11 @@ public class ProductController {
     @Autowired
     private WarehouseRepository warehouseRepository;
 
+    @ExceptionHandler(NoSuchElementException.class)
+    public String handleException(){
+        return "error";
+    }
+
     @GetMapping
     public List<Product> getAllProducts(){
         return productRepository.findAll();
@@ -38,9 +43,9 @@ public class ProductController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<Object> createProduct(AddProductDto dto){
-        Optional<Warehouse> warehouse = warehouseRepository.findById(dto.getWarehouse());
+    @RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT})
+    public ResponseEntity<Object> createOrUpdateProduct(@RequestBody ProductDto dto){
+        Optional<Warehouse> warehouse = warehouseRepository.findById(dto.getWarehouseId());
         if (warehouse.isPresent()) {
             Product product = new Product();
             product.setId(dto.getId());
@@ -52,9 +57,18 @@ public class ProductController {
             productRepository.save(product);
             return ResponseEntity.ok().build();
         } else {
-            throw new NoSuchElementException("Warehouse with ID: " + dto.getWarehouse() + " was not found!");
+            throw new NoSuchElementException("Warehouse with ID: " + dto.getWarehouseId() + " was not found!");
         }
     }
 
+    @DeleteMapping("{productId}")
+    public ResponseEntity<Object> deleteProduct(@PathVariable Long productId){
+        if (productRepository.findById(productId).isPresent()) {
+            productRepository.deleteById(productId);
+            return ResponseEntity.ok().build();
+        } else {
+            throw new NoSuchElementException("Product with ID: " + productId + " was not found!");
+        }
+    }
 
 }

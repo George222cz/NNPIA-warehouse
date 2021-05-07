@@ -1,7 +1,9 @@
 package cz.upce.warehouse;
 
 import cz.upce.warehouse.entity.Product;
+import cz.upce.warehouse.entity.Warehouse;
 import cz.upce.warehouse.repository.ProductRepository;
+import cz.upce.warehouse.repository.WarehouseRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +23,9 @@ class ProductRepositoryTests {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    WarehouseRepository warehouseRepository;
+
     @Test
     void saveProductTest() {
         Product product = new Product();
@@ -32,6 +37,26 @@ class ProductRepositoryTests {
         Assertions.assertThat(all.size()).isEqualTo(1);
 
         //  Product product123 = productRepository.findProductByProductNameContains("123");
+    }
+
+    @Test
+    void findAllProductsTest(){
+        Warehouse warehouse = new Warehouse();
+        warehouse.setAddress("testAddress");
+        warehouse.setWarehouseName("Test");
+        warehouseRepository.save(warehouse);
+
+        Product product = new Product();
+        product.setWarehouse(warehouse);
+        product.setUnitWeight(10);
+        product.setAmount(10);
+        product.setDescription("abc");
+        product.setProductName("ProductTest");
+        productRepository.save(product);
+
+        List<Product> all = productRepository.findAll();
+        Assertions.assertThat(all.size()).isEqualTo(1);
+
     }
 
 }

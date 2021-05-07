@@ -1,6 +1,9 @@
 package cz.upce.warehouse.entity;
 
+import com.fasterxml.jackson.annotation.*;
+
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -19,7 +22,11 @@ public class Product {
     private Integer unitWeight;
 
     @ManyToOne
+    @JsonIgnore
     private Warehouse warehouse;
+
+    @Column(name = "warehouse_id",insertable = false, updatable = false)
+    private Long warehouseId;
 
     @OneToMany(mappedBy = "id")
     private Set<TransferItem> productsInTransfers;
@@ -80,4 +87,29 @@ public class Product {
         this.warehouse = warehouse;
     }
 
+    public Long getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(Long warehouseId) {
+        this.warehouseId = warehouseId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id) &&
+                Objects.equals(productName, product.productName) &&
+                Objects.equals(description, product.description) &&
+                Objects.equals(amount, product.amount) &&
+                Objects.equals(unitWeight, product.unitWeight) &&
+                Objects.equals(warehouseId, product.warehouseId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, productName, description, amount, unitWeight, warehouseId);
+    }
 }

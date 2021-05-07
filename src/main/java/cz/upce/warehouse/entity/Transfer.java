@@ -10,7 +10,7 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String transferNumber;
+    private String created;
 
     private String address;
 
@@ -32,12 +32,12 @@ public class Transfer {
         this.id = id;
     }
 
-    public String getTransferNumber() {
-        return transferNumber;
+    public String getCreated() {
+        return created;
     }
 
-    public void setTransferNumber(String transferNumber) {
-        this.transferNumber = transferNumber;
+    public void setCreated(String created) {
+        this.created = created;
     }
 
     public Set<TransferItem> getTransferItems() {

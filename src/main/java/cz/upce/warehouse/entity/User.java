@@ -12,6 +12,8 @@ public class User {
 
     private String username;
 
+    private String email;
+
     private String password;
 
     private String phone;
@@ -71,4 +73,11 @@ public class User {
         this.transfers = transfers;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
