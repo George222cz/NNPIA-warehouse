@@ -1,6 +1,7 @@
 package cz.upce.warehouse.service;
 
 import cz.upce.warehouse.entity.*;
+import cz.upce.warehouse.model.TransferStateEnum;
 import cz.upce.warehouse.repository.ProductRepository;
 import cz.upce.warehouse.repository.TransferItemRepository;
 import cz.upce.warehouse.repository.TransferRepository;

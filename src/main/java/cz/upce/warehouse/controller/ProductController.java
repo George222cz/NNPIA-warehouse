@@ -1,12 +1,13 @@
 package cz.upce.warehouse.controller;
 
-import cz.upce.warehouse.dto.ProductDto;
+import cz.upce.warehouse.model.ProductDto;
 import cz.upce.warehouse.entity.Product;
 import cz.upce.warehouse.entity.Warehouse;
 import cz.upce.warehouse.repository.ProductRepository;
 import cz.upce.warehouse.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,6 +63,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{productId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> deleteProduct(@PathVariable Long productId){
         if (productRepository.findById(productId).isPresent()) {
             productRepository.deleteById(productId);

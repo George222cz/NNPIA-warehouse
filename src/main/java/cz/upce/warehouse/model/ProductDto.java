@@ -1,4 +1,4 @@
-package cz.upce.warehouse.dto;
+package cz.upce.warehouse.model;
 
 public class ProductDto {
 

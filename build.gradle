@@ -18,10 +18,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-test'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    testCompile 'commons-beanutils:commons-beanutils:1.9.4'
+    testCompile 'org.apache.commons:commons-lang3:3.12.0'
 }
 
 test {

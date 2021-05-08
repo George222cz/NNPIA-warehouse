@@ -1,5 +1,7 @@
 package cz.upce.warehouse.entity;
 
+import cz.upce.warehouse.model.RoleEnum;
+
 import javax.persistence.*;
 import java.util.Set;
 

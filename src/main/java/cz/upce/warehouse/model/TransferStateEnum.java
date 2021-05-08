@@ -1,4 +1,4 @@
-package cz.upce.warehouse.entity;
+package cz.upce.warehouse.model;
 
 public enum TransferStateEnum {
     PENDING,
