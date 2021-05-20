@@ -1,5 +1,7 @@
-package cz.upce.warehouse.security;
+package cz.upce.warehouse.config;
 
+import cz.upce.warehouse.security.JwtAuthEntryPoint;
+import cz.upce.warehouse.security.JwtAuthTokenFilter;
 import cz.upce.warehouse.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated();

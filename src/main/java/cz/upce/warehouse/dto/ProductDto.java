@@ -1,4 +1,4 @@
-package cz.upce.warehouse.model;
+package cz.upce.warehouse.dto;
 
 public class ProductDto {
 
@@ -13,6 +13,7 @@ public class ProductDto {
     private Integer unitWeight;
 
     private Long warehouseId;
+
 
     public Long getId() {
         return id;

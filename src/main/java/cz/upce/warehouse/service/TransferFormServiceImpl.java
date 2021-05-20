@@ -1,21 +1,21 @@
 package cz.upce.warehouse.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.upce.warehouse.entity.*;
 import cz.upce.warehouse.model.TransferStateEnum;
 import cz.upce.warehouse.repository.ProductRepository;
 import cz.upce.warehouse.repository.TransferItemRepository;
 import cz.upce.warehouse.repository.TransferRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.SessionScope;
 
+import javax.transaction.TransactionScoped;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
-@SessionScope
+@TransactionScoped
 public class TransferFormServiceImpl implements TransferFormService {
 
     private final Map<Product,Integer> transferForm;
@@ -24,6 +24,7 @@ public class TransferFormServiceImpl implements TransferFormService {
     private final TransferRepository transferRepository;
     private final TransferItemRepository transferItemRepository;
 
+    @Autowired
     public TransferFormServiceImpl(ProductRepository productRepository, TransferRepository transferRepository, TransferItemRepository transferItemRepository) {
         this.productRepository = productRepository;
         this.transferRepository = transferRepository;
@@ -76,4 +77,27 @@ public class TransferFormServiceImpl implements TransferFormService {
         }
         transferForm.clear();
     }
+
+    @Override
+    public String getTransferFormJSON() throws JsonProcessingException {
+        String json = "[";
+        for (Map.Entry<Product, Integer> entry : getTransferForm().entrySet()) {
+            json += "{\"key\":"+new ObjectMapper().writeValueAsString(entry.getKey())+", \"value\":"+entry.getValue()+"},";
+        }
+        if(!transferForm.isEmpty()) json = json.substring(0, json.length()-1);
+        json += "]";
+        return json;
+    }
+
+    @Override
+    public void update(Long id, Integer amount) {
+        Product product = productRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        if(transferForm.containsKey(product)){
+            transferForm.replace(product,amount);
+        }else{
+            transferForm.put(product,amount);
+        }
+    }
+
+
 }

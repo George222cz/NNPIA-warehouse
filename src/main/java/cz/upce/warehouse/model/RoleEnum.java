@@ -1,7 +1,7 @@
 package cz.upce.warehouse.model;
 
 public enum RoleEnum {
-    USER,
-    WAREHOUSEMAN,
-    ADMIN
+    ROLE_USER,
+    ROLE_WAREHOUSEMAN,
+    ROLE_ADMIN
 }

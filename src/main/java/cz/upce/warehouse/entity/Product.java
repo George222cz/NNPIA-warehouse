@@ -1,10 +1,14 @@
 package cz.upce.warehouse.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.Set;
+
 
 @Entity
 public class Product {
@@ -29,6 +33,7 @@ public class Product {
     private Long warehouseId;
 
     @OneToMany(mappedBy = "id")
+    @JsonIgnore
     private Set<TransferItem> productsInTransfers;
 
     public Long getId() {

@@ -1,9 +1,11 @@
-package cz.upce.warehouse.model;
+package cz.upce.warehouse.dto;
 
 import javax.validation.constraints.*;
-import java.util.Set;
 
-public class SignupRequest {
+public class UserDto {
+
+    private Long id;
+
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -13,11 +15,13 @@ public class SignupRequest {
     @Email
     private String email;
 
-    private Set<String> role;
+    private String role;
 
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+
+    private String phone;
 
     public String getUsername() {
         return username;
@@ -43,11 +47,27 @@ public class SignupRequest {
         this.password = password;
     }
 
-    public Set<String> getRole() {
-        return this.role;
+    public String getRole() {
+        return role;
     }
 
-    public void setRole(Set<String> role) {
+    public void setRole(String role) {
         this.role = role;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -13,4 +13,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
  //   @EntityGraph(attributePaths = {"productsInTransfers"})
     List<Product> findProductsByAmountEquals(Integer amount);
+
+    List<Product> findProductsByWarehouseId(Long warehouseId);
 }

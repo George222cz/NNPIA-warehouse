@@ -1,11 +1,13 @@
 package cz.upce.warehouse.controller;
 
-import cz.upce.warehouse.model.ProductDto;
+import cz.upce.warehouse.dto.ProductDto;
 import cz.upce.warehouse.entity.Product;
 import cz.upce.warehouse.entity.Warehouse;
 import cz.upce.warehouse.repository.ProductRepository;
 import cz.upce.warehouse.repository.WarehouseRepository;
+import cz.upce.warehouse.service.TransferFormService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +21,27 @@ import java.util.Optional;
 @CrossOrigin
 public class ProductController {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    private final WarehouseRepository warehouseRepository;
+
+    private final TransferFormService transferFormService;
 
     @Autowired
-    private WarehouseRepository warehouseRepository;
+    public ProductController(ProductRepository productRepository, WarehouseRepository warehouseRepository, TransferFormService transferFormService) {
+        this.productRepository = productRepository;
+        this.warehouseRepository = warehouseRepository;
+        this.transferFormService = transferFormService;
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<?> handleException(){
+         return ResponseEntity.badRequest().body("{\"message\":\"Cannot delete: This product is used in transfers!\"}");
+    }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public String handleException(){
-        return "error";
+    public ResponseEntity<?> handleException(NoSuchElementException ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @GetMapping
@@ -35,7 +49,18 @@ public class ProductController {
         return productRepository.findAll();
     }
 
+    @GetMapping("/warehouse/{warehouseId}")
+    public List<Product> getProductsByWarehouseId(@PathVariable Long warehouseId){
+        Optional<Warehouse> warehouse = warehouseRepository.findById(warehouseId);
+        if (warehouse.isPresent()) {
+            return productRepository.findProductsByWarehouseId(warehouseId);
+        } else {
+            throw new NoSuchElementException("Warehouse with ID: " + warehouseId + " was not found!");
+        }
+    }
+
     @GetMapping("{productId}")
+    @PreAuthorize("hasRole('ROLE_WAREHOUSEMAN') or hasRole('ROLE_ADMIN')")
     public Product getProductById(@PathVariable Long productId){
         if (productRepository.findById(productId).isPresent()) {
             return productRepository.findById(productId).get();
@@ -45,6 +70,7 @@ public class ProductController {
     }
 
     @RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT})
+    @PreAuthorize("hasRole('ROLE_WAREHOUSEMAN') or hasRole('ROLE_ADMIN')")
     public ResponseEntity<Object> createOrUpdateProduct(@RequestBody ProductDto dto){
         Optional<Warehouse> warehouse = warehouseRepository.findById(dto.getWarehouseId());
         if (warehouse.isPresent()) {
@@ -63,11 +89,13 @@ public class ProductController {
     }
 
     @DeleteMapping("{productId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Object> deleteProduct(@PathVariable Long productId){
-        if (productRepository.findById(productId).isPresent()) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<Product> deleteProduct(@PathVariable Long productId){
+        Optional<Product> product = productRepository.findById(productId);
+        if (product.isPresent()) {
+            transferFormService.getTransferForm().remove(product.get());
             productRepository.deleteById(productId);
-            return ResponseEntity.ok().build();
+            return productRepository.findAll();
         } else {
             throw new NoSuchElementException("Product with ID: " + productId + " was not found!");
         }

@@ -1,5 +1,6 @@
 package cz.upce.warehouse.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.upce.warehouse.model.RoleEnum;
 
 import javax.persistence.*;
@@ -16,11 +17,13 @@ public class User {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private String phone;
 
     @OneToMany(mappedBy = "id")
+    @JsonIgnore
     private Set<Transfer> transfers;
 
     @Enumerated(EnumType.STRING)

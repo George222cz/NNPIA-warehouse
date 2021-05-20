@@ -1,5 +1,6 @@
 package cz.upce.warehouse.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.upce.warehouse.model.TransferStateEnum;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class Transfer {
     @ManyToOne
     private User user;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "transfer")
     private Set<TransferItem> transferItems;
 
     public Long getId() {

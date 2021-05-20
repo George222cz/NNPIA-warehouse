@@ -1,5 +1,6 @@
 package cz.upce.warehouse.datafactory;
 
+import cz.upce.warehouse.model.RoleEnum;
 import cz.upce.warehouse.model.TransferStateEnum;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
@@ -78,6 +79,8 @@ public class Creator {
                                 propValue = 0;
                             } else if (TransferStateEnum.class.equals(fieldClass)){
                                 propValue = TransferStateEnum.PENDING;
+                            } else if (RoleEnum.class.equals(fieldClass)){
+                                propValue = RoleEnum.ROLE_ADMIN;
                             }else {
                                 propValue = fieldClass.newInstance();
                             }

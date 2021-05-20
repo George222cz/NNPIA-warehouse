@@ -1,5 +1,7 @@
 package cz.upce.warehouse.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class TransferItem {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     private Transfer transfer;
 
     @ManyToOne
