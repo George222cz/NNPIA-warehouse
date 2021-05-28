@@ -17,29 +17,29 @@ Application has two not secured (public) endpoints:
 All other communication is already secured by JWT tokens.
 
 Users also have roles. The user can have the role of administrator or warehouseman or basic user.
-##REST Controllers
+## REST Controllers
 IndexController and AuthController (see above)
-#####ProductController: 
+##### ProductController: 
 - GET all products
 - GET ("/warehouse/{warehouseId}") products by warehouseId
 - GET ("{productId}") product by id (ROLE: ROLE_WAREHOUSEMAN or ROLE_ADMIN)
 - POST/PUT create or update product (ROLE: ROLE_WAREHOUSEMAN or ROLE_ADMIN)
 - DEL ("{productId}") delete product(ROLE: ROLE_ADMIN)
-#####TransferController (ROLE: ROLE_WAREHOUSEMAN or ROLE_ADMIN): 
+##### TransferController (ROLE: ROLE_WAREHOUSEMAN or ROLE_ADMIN): 
 - GET all transfers
 - PUT ("/change-state/{transferId}/{state}") change transfer state
 - POST ("/confirm/{userId}/{address}") confirm transfer form
 - DEL not supported - transfers cannot be removed only canceled!
-#####TransferFormController (ROLE: ROLE_WAREHOUSEMAN or ROLE_ADMIN):
+##### TransferFormController (ROLE: ROLE_WAREHOUSEMAN or ROLE_ADMIN):
 - GET transfer form
 - POST ("{productId}") add a product to transfer
 - DEL ("{productId}") remove product from transfer
 - PUT ("{productId}/{amount}") update product to transfer (ROLE: ROLE_ADMIN)
-#####UserController (ROLE: ROLE_ADMIN):
+##### UserController (ROLE: ROLE_ADMIN):
 - GET all users
 - POST/PUT create or update user
 - DEL ("{userId}") delete user
-#####WarehouseController:
+##### WarehouseController:
 - GET all warehouses
 - POST/PUT create or update warehouse (ROLE: ROLE_ADMIN)
 - DEL ("{warehouseId}") delete warehouse (ROLE: ROLE_ADMIN)
@@ -48,7 +48,7 @@ IndexController and AuthController (see above)
 - Two unit tests on controller-view layer: MockMvcProductTest and MockMvcWarehouseTest (MockMvc used)
 - Integration test where two services are cooperating: ServicesCooperationTest (Creator used)
 - Three Selenium (UI) tests: LoginTests and WarehouseFormTest (Creator used)
-##Final note
+## Final note
 This application is part of Warehouse app semester work for NNPIA (2021).
 For inspiration were used:
 - Spring Boot Security and working example JWT authentication https://github.com/petrfilip/spring-boot-jwt
