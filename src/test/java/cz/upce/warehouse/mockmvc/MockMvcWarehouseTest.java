@@ -21,8 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.MOCK, classes={ WarehouseApplication.class })
 @SpringBootTest(classes = WarehouseApplication.class)
 @AutoConfigureMockMvc
 public class MockMvcWarehouseTest {
@@ -33,29 +31,12 @@ public class MockMvcWarehouseTest {
     @MockBean
     private WarehouseRepository warehouseRepository;
 
-  //  @InjectMocks
-  //  private WarehouseController warehouseController;
-
-  /*  @Autowired
-    private WebApplicationContext webApplicationContext;
-*/
-
-/*
-    @Before
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
-        //this.mockMvc = webAppContextSetup(webApplicationContext).build();
-        warehouseController = new WarehouseController(warehouseRepository);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(warehouseController).build();
-    }*/
-
     @BeforeEach
     public void shouldCreateMockMvc(){
         assertNotNull(mockMvc);
     }
 
     @Test
-    //@WithAnonymousUser
     @WithMockUser(username = "admin", password = "pwd", authorities = "ROLE_ADMIN")
     public void getAllWarehousesTest() throws Exception {
         Warehouse warehouse = new Warehouse();
@@ -64,15 +45,11 @@ public class MockMvcWarehouseTest {
         warehouse.setWarehouseName("test");
         when(warehouseRepository.findAll()).thenReturn(Arrays.asList(warehouse));
 
-        //when(warehouseRepository.save(any(Warehouse.class))).thenReturn(new Warehouse());
-
         mockMvc.perform(get("/api/warehouse")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$[0].address").value("test address123"));
-
     }
-
 }

@@ -1,6 +1,5 @@
 package cz.upce.warehouse.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.upce.warehouse.model.TransferStateEnum;
 
 import javax.persistence.*;
