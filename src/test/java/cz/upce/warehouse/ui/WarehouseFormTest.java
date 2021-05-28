@@ -14,6 +14,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+import java.io.File;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(Creator.class)
 public class WarehouseFormTest {
 
@@ -45,11 +48,18 @@ public class WarehouseFormTest {
     public static void setupWebdriverChromeDriver() {
         String chromeDriverPath = LoginTest.class.getResource("/chromedriver.exe").getFile();
         System.setProperty("webdriver.chrome.driver", chromeDriverPath);
+        String circleCIChromeDriverPath = "/usr/local/bin/chromedriver";
+        if(new File(circleCIChromeDriverPath).exists()){
+            System.setProperty("webdriver.chrome.driver", circleCIChromeDriverPath);
+        }
     }
 
     @BeforeEach
     public void setup() {
-        driver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setHeadless(true);
+        driver = new ChromeDriver(chromeOptions);
+
         User tmp = new User();
         tmp.setPassword("$2a$10$991/Un.tLw9l3HqaRUb1gui75xySXIwfBRdannXLaMgDBUlL7j03O");
         user = (User) creator.saveEntity(tmp);
@@ -67,16 +77,16 @@ public class WarehouseFormTest {
 
     @Test
     public void successLoginAndWarehouseCreationTest() {
-        driver.get("http://localhost:3000/login");
+        driver.get("http://localhost:"+localServerPort+"/login");
         driver.findElement(By.id("username")).sendKeys("Test username");
         driver.findElement(By.id("password")).sendKeys("heslo");
         driver.findElement(By.xpath("//input[@type='submit']")).click();
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("welcome")));
 
-        Assert.assertEquals("http://localhost:3000/profile", driver.getCurrentUrl());
+        Assert.assertEquals("http://localhost:"+localServerPort+"/profile", driver.getCurrentUrl());
 
-        driver.get("http://localhost:3000/warehouses");
+        driver.get("http://localhost:"+localServerPort+"/warehouses");
         driver.findElement(By.id("name")).sendKeys("Test warehouse name123");
         driver.findElement(By.id("address")).sendKeys("Test warehouse address");
 
