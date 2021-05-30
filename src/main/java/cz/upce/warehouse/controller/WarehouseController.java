@@ -3,7 +3,6 @@ package cz.upce.warehouse.controller;
 import cz.upce.warehouse.dto.WarehouseDto;
 import cz.upce.warehouse.entity.Warehouse;
 import cz.upce.warehouse.repository.WarehouseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +13,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/warehouse")
-@CrossOrigin
 public class WarehouseController {
 
     private final WarehouseRepository warehouseRepository;
 
-    @Autowired
     public WarehouseController(WarehouseRepository warehouseRepository) {
         this.warehouseRepository = warehouseRepository;
     }

@@ -3,11 +3,11 @@ package cz.upce.warehouse.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.upce.warehouse.entity.*;
-import cz.upce.warehouse.model.TransferStateEnum;
+import cz.upce.warehouse.dto.TransferStateEnum;
 import cz.upce.warehouse.repository.ProductRepository;
 import cz.upce.warehouse.repository.TransferItemRepository;
 import cz.upce.warehouse.repository.TransferRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.omg.CORBA.DATA_CONVERSION;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.TransactionScoped;
@@ -24,7 +24,6 @@ public class TransferFormServiceImpl implements TransferFormService {
     private final TransferRepository transferRepository;
     private final TransferItemRepository transferItemRepository;
 
-    @Autowired
     public TransferFormServiceImpl(ProductRepository productRepository, TransferRepository transferRepository, TransferItemRepository transferItemRepository) {
         this.productRepository = productRepository;
         this.transferRepository = transferRepository;
@@ -65,7 +64,7 @@ public class TransferFormServiceImpl implements TransferFormService {
         transfer.setUser(user);
         transfer.setAddress(address);
         transfer.setState(TransferStateEnum.PENDING);
-        transfer.setCreated(new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()));
+        transfer.setCreated(new Date());
         transferRepository.save(transfer);
 
         for (Map.Entry<Product, Integer> entry : transferForm.entrySet()) {

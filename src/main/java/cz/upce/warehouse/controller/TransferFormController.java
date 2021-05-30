@@ -2,19 +2,16 @@ package cz.upce.warehouse.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.upce.warehouse.service.TransferFormService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/transfer/form")
-@CrossOrigin
 public class TransferFormController {
 
     private final TransferFormService transferFormService;
 
-    @Autowired
     public TransferFormController(TransferFormService transferFormService) {
         this.transferFormService = transferFormService;
     }

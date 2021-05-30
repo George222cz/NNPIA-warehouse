@@ -2,9 +2,8 @@ package cz.upce.warehouse.controller;
 
 import cz.upce.warehouse.dto.UserDto;
 import cz.upce.warehouse.entity.User;
-import cz.upce.warehouse.model.RoleEnum;
+import cz.upce.warehouse.dto.RoleEnum;
 import cz.upce.warehouse.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +14,10 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/user")
-@CrossOrigin
 public class UserController {
 
     private final UserRepository userRepository;
 
-    @Autowired
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

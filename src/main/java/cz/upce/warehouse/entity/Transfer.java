@@ -1,8 +1,10 @@
 package cz.upce.warehouse.entity;
 
-import cz.upce.warehouse.model.TransferStateEnum;
+import cz.upce.warehouse.dto.TransferStateEnum;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -12,7 +14,7 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String created;
+    private Date created;
 
     private String address;
 
@@ -34,11 +36,11 @@ public class Transfer {
         this.id = id;
     }
 
-    public String getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 

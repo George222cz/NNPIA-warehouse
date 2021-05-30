@@ -2,11 +2,10 @@ package cz.upce.warehouse.controller;
 
 import cz.upce.warehouse.entity.Transfer;
 import cz.upce.warehouse.entity.User;
-import cz.upce.warehouse.model.TransferStateEnum;
+import cz.upce.warehouse.dto.TransferStateEnum;
 import cz.upce.warehouse.repository.TransferRepository;
 import cz.upce.warehouse.repository.UserRepository;
 import cz.upce.warehouse.service.TransferFormService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/transfer")
-@CrossOrigin
 public class TransferController {
 
     private final TransferFormService transferFormService;
@@ -26,7 +24,6 @@ public class TransferController {
 
     private final TransferRepository transferRepository;
 
-    @Autowired
     public TransferController(TransferFormService transferFormService, UserRepository userRepository, TransferRepository transferRepository) {
         this.transferFormService = transferFormService;
         this.userRepository = userRepository;

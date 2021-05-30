@@ -1,14 +1,13 @@
 package cz.upce.warehouse.controller;
 
 import cz.upce.warehouse.entity.User;
-import cz.upce.warehouse.model.LoginResponse;
-import cz.upce.warehouse.model.LoginRequest;
-import cz.upce.warehouse.model.RoleEnum;
+import cz.upce.warehouse.dto.LoginResponse;
+import cz.upce.warehouse.dto.LoginRequest;
+import cz.upce.warehouse.dto.RoleEnum;
 import cz.upce.warehouse.dto.UserDto;
 import cz.upce.warehouse.repository.UserRepository;
 import cz.upce.warehouse.security.JwtTokenUtil;
 import cz.upce.warehouse.service.UserDetailsImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +24,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Validated
-@CrossOrigin
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -37,7 +35,6 @@ public class AuthController {
 
     private final JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
     public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, PasswordEncoder encoder, JwtTokenUtil jwtTokenUtil) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;

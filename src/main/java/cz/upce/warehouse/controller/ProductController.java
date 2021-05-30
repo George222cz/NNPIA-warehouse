@@ -6,7 +6,6 @@ import cz.upce.warehouse.entity.Warehouse;
 import cz.upce.warehouse.repository.ProductRepository;
 import cz.upce.warehouse.repository.WarehouseRepository;
 import cz.upce.warehouse.service.TransferFormService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,7 +17,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/product")
-@CrossOrigin
 public class ProductController {
 
     private final ProductRepository productRepository;
@@ -27,7 +25,6 @@ public class ProductController {
 
     private final TransferFormService transferFormService;
 
-    @Autowired
     public ProductController(ProductRepository productRepository, WarehouseRepository warehouseRepository, TransferFormService transferFormService) {
         this.productRepository = productRepository;
         this.warehouseRepository = warehouseRepository;

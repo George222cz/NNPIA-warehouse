@@ -1,7 +1,7 @@
 package cz.upce.warehouse.datafactory;
 
-import cz.upce.warehouse.model.RoleEnum;
-import cz.upce.warehouse.model.TransferStateEnum;
+import cz.upce.warehouse.dto.RoleEnum;
+import cz.upce.warehouse.dto.TransferStateEnum;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.logging.Log;

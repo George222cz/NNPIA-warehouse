@@ -1,7 +1,7 @@
 package cz.upce.warehouse.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import cz.upce.warehouse.model.RoleEnum;
+import cz.upce.warehouse.dto.RoleEnum;
 
 import javax.persistence.*;
 import java.util.Set;
