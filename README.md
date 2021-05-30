@@ -6,7 +6,15 @@ These products can be added to transfers - forms for product transportation. (se
 
 The purpose of this backend application is to map (create) a database and provide an REST API for secure communication via JWT tokens.
 The application also has testing part. Application has multi-layer architecture. 
+#### Deploy info
+Frontend application is hosted on Webzdarma.cz:
+http://warehouse.euweb.cz/
 
+Backend application is deployed on Heroku: 
+https://nnpia-warehouse.herokuapp.com/
+
+The application should have some basic data in the database.
+- For login try username and password: **admin**
 #### Database model
 ![Get token](./img/db.png)
 ### Spring Boot Security
