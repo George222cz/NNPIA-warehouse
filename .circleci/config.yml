@@ -26,11 +26,6 @@ jobs:
       TERM: dumb
 
     steps:
-      - run:
-          command: |
-            google-chrome --version
-            chromedriver --version
-          name: Check install
       - checkout
 
       # Download and cache dependencies

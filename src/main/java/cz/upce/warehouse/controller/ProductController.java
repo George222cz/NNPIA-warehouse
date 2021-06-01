@@ -7,6 +7,8 @@ import cz.upce.warehouse.repository.ProductRepository;
 import cz.upce.warehouse.repository.WarehouseRepository;
 import cz.upce.warehouse.service.TransferFormService;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +46,14 @@ public class ProductController {
     @GetMapping
     public List<Product> getAllProducts(){
         return productRepository.findAll();
+    }
+
+    @GetMapping("/pages")
+    public Page<Product> getAllProductsPages(@RequestParam Integer page, @RequestParam Integer size){
+        if ((page!=null || size!=null) && !(page < 0 || size <= 0)){
+            return productRepository.findAll(PageRequest.of(page, size));
+        }
+        return Page.empty();
     }
 
     @GetMapping("/warehouse/{warehouseId}")

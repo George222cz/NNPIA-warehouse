@@ -28,6 +28,7 @@ dependencies {
     testImplementation 'org.apache.httpcomponents:httpclient'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    testImplementation 'com.h2database:h2:1.4.200'
     testCompile 'commons-beanutils:commons-beanutils:1.9.4'
     testCompile 'org.apache.commons:commons-lang3:3.12.0'
 }
