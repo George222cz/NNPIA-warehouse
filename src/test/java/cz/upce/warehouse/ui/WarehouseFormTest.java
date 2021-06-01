@@ -24,14 +24,11 @@ import org.springframework.context.annotation.Import;
 
 import java.io.File;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Import(Creator.class)
 public class WarehouseFormTest {
 
     private WebDriver driver;
-
-    @LocalServerPort
-    private int localServerPort;
 
     @Autowired
     Creator creator;
@@ -77,16 +74,17 @@ public class WarehouseFormTest {
 
     @Test
     public void successLoginAndWarehouseCreationTest() {
-        driver.get("http://localhost:"+localServerPort+"/login");
+
+        driver.get("http://warehouse.euweb.cz/login");
         driver.findElement(By.id("username")).sendKeys("Test username");
         driver.findElement(By.id("password")).sendKeys("heslo");
         driver.findElement(By.xpath("//input[@type='submit']")).click();
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("welcome")));
 
-        Assert.assertEquals("http://localhost:"+localServerPort+"/profile", driver.getCurrentUrl());
+        Assert.assertEquals("http://warehouse.euweb.cz/profile", driver.getCurrentUrl());
 
-        driver.get("http://localhost:"+localServerPort+"/warehouses");
+        driver.get("http://warehouse.euweb.cz/warehouses");
         driver.findElement(By.id("name")).sendKeys("Test warehouse name123");
         driver.findElement(By.id("address")).sendKeys("Test warehouse address");
 

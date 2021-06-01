@@ -25,14 +25,11 @@ import org.springframework.context.annotation.Import;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Import(Creator.class)
 public class LoginTest {
 
     private WebDriver driver;
-
-    @LocalServerPort
-    private int localServerPort;
 
     @Autowired
     Creator creator;
@@ -74,25 +71,25 @@ public class LoginTest {
 
     @Test
     public void successLoginTest() {
-        driver.get("http://localhost:"+localServerPort+"/login");
+        driver.get("http://warehouse.euweb.cz/login");
         driver.findElement(By.id("username")).sendKeys("Test username");
         driver.findElement(By.id("password")).sendKeys("heslo");
         driver.findElement(By.xpath("//input[@type='submit']")).click();
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("welcome")));
 
-        Assert.assertEquals("http://localhost:"+localServerPort+"/profile", driver.getCurrentUrl());
+        Assert.assertEquals("http://warehouse.euweb.cz/profile", driver.getCurrentUrl());
     }
 
     @Test
     public void failedLoginTest() {
-        driver.get("http://localhost:"+localServerPort+"/login");
+        driver.get("http://warehouse.euweb.cz/login");
         driver.findElement(By.id("username")).sendKeys("Test username");
         driver.findElement(By.id("password")).sendKeys("spatne heslo");
         driver.findElement(By.xpath("//input[@type='submit']")).click();
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("unauthorized")));
 
-        Assert.assertEquals("http://localhost:"+localServerPort+"/login", driver.getCurrentUrl());
+        Assert.assertEquals("http://warehouse.euweb.cz/login", driver.getCurrentUrl());
     }
 }
