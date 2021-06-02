@@ -31,6 +31,8 @@ public class LoginTest {
 
     private WebDriver driver;
 
+    private final String frontendURL = "http://warehouse.euweb.cz";
+
     @Autowired
     Creator creator;
 
@@ -71,25 +73,25 @@ public class LoginTest {
 
     @Test
     public void successLoginTest() {
-        driver.get("http://warehouse.euweb.cz/login");
+        driver.get(frontendURL+"/login");
         driver.findElement(By.id("username")).sendKeys("Test username");
         driver.findElement(By.id("password")).sendKeys("heslo");
         driver.findElement(By.xpath("//input[@type='submit']")).click();
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("welcome")));
 
-        Assert.assertEquals("http://warehouse.euweb.cz/profile", driver.getCurrentUrl());
+        Assert.assertEquals(frontendURL+"/profile", driver.getCurrentUrl());
     }
 
     @Test
     public void failedLoginTest() {
-        driver.get("http://warehouse.euweb.cz/login");
+        driver.get(frontendURL+"/login");
         driver.findElement(By.id("username")).sendKeys("Test username");
         driver.findElement(By.id("password")).sendKeys("spatne heslo");
         driver.findElement(By.xpath("//input[@type='submit']")).click();
 
         new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("unauthorized")));
 
-        Assert.assertEquals("http://warehouse.euweb.cz/login", driver.getCurrentUrl());
+        Assert.assertEquals(frontendURL+"/login", driver.getCurrentUrl());
     }
 }
