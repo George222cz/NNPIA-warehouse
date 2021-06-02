@@ -59,8 +59,8 @@ public class TransferFormTests {
         transferFormService.add(productId);
 
         Assertions.assertThat(transferFormService.getTransferForm().size()).isEqualTo(1);
-
         int lastIndex = transferFormService.getTransferForm().size()-1;
+        
         Assertions.assertThat(transferFormService.getTransferForm().get(lastIndex).getProductId()).isEqualTo(productId);
 
         Assertions.assertThat(transferFormService.getTransferForm().get(lastIndex).getAmount()).isEqualTo(1);
