@@ -30,7 +30,7 @@ public class WarehouseFormTest {
 
     private WebDriver driver;
 
-    private final String frontendURL = "http://warehouse.euweb.cz";
+    private final String frontendURL = "http://localhost:3000";
 
     @Autowired
     Creator creator;
@@ -56,7 +56,7 @@ public class WarehouseFormTest {
     @BeforeEach
     public void setup() {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setHeadless(true);
+        chromeOptions.setHeadless(false);
         driver = new ChromeDriver(chromeOptions);
 
         User tmp = new User();

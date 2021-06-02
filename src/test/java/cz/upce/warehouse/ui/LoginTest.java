@@ -31,7 +31,7 @@ public class LoginTest {
 
     private WebDriver driver;
 
-    private final String frontendURL = "http://warehouse.euweb.cz";
+    private final String frontendURL = "http://localhost";
 
     @Autowired
     Creator creator;
@@ -78,7 +78,12 @@ public class LoginTest {
         driver.findElement(By.id("password")).sendKeys("heslo");
         driver.findElement(By.xpath("//input[@type='submit']")).click();
 
-        new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("welcome")));
+        try {
+            new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("welcome")));
+        } catch (Exception e) {
+            System.out.println(driver.getPageSource());
+            throw e;
+        }
 
         Assert.assertEquals(frontendURL+"/profile", driver.getCurrentUrl());
     }
