@@ -2,23 +2,22 @@ package cz.upce.warehouse.controller;
 
 import cz.upce.warehouse.dto.WarehouseDto;
 import cz.upce.warehouse.entity.Warehouse;
-import cz.upce.warehouse.repository.WarehouseRepository;
+import cz.upce.warehouse.service.WarehouseServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/warehouse")
 public class WarehouseController {
 
-    private final WarehouseRepository warehouseRepository;
+    private final WarehouseServiceImpl warehouseService;
 
-    public WarehouseController(WarehouseRepository warehouseRepository) {
-        this.warehouseRepository = warehouseRepository;
+    public WarehouseController(WarehouseServiceImpl warehouseService) {
+        this.warehouseService = warehouseService;
     }
 
     @ExceptionHandler(NoSuchElementException.class)
@@ -28,30 +27,19 @@ public class WarehouseController {
 
     @GetMapping
     public List<Warehouse> getAllWarehouses(){
-        return warehouseRepository.findAll();
+        return warehouseService.getAllWarehouses();
     }
 
     @RequestMapping(method = {RequestMethod.POST,RequestMethod.PUT})
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Warehouse> createOrUpdateWarehouse(@RequestBody WarehouseDto dto){
-        Warehouse warehouse = new Warehouse();
-        warehouse.setId(dto.getId());
-        warehouse.setWarehouseName(dto.getWarehouseName());
-        warehouse.setAddress(dto.getAddress());
-        warehouseRepository.save(warehouse);
-        return warehouseRepository.findAll();
+        return warehouseService.createOrUpdateWarehouse(dto);
     }
 
     @DeleteMapping("{warehouseId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Warehouse> deleteWarehouse(@PathVariable Long warehouseId){
-        Optional<Warehouse> byId = warehouseRepository.findById(warehouseId);
-        if (byId.isPresent()) {
-            warehouseRepository.deleteById(warehouseId);
-            return warehouseRepository.findAll();
-        } else {
-            throw new NoSuchElementException("Warehouse with ID: " + warehouseId + " was not found!");
-        }
+        return warehouseService.deleteWarehouse(warehouseId);
     }
 
 }

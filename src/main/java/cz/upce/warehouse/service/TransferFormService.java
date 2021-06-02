@@ -1,7 +1,7 @@
 package cz.upce.warehouse.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.upce.warehouse.dto.TransferItemDto;
+import cz.upce.warehouse.entity.Product;
 import cz.upce.warehouse.entity.User;
 
 import java.util.List;
@@ -17,4 +17,6 @@ public interface TransferFormService {
     void confirm(User user, String address);
 
     void update(Long productId, Integer amount);
+
+    void deleteProduct(Product product);
 }

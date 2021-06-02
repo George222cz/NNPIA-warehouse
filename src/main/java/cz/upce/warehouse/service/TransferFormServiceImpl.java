@@ -96,5 +96,9 @@ public class TransferFormServiceImpl implements TransferFormService {
         }
     }
 
+    public void deleteProduct(Product product){
+        transferForm.remove(product);
+    }
+
 
 }
