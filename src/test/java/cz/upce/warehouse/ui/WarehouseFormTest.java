@@ -30,7 +30,7 @@ public class WarehouseFormTest {
 
     private WebDriver driver;
 
-    private final String frontendURL = "http://localhost:3000";
+    private final String frontendURL = "http://localhost:8080";
 
     @Autowired
     Creator creator;

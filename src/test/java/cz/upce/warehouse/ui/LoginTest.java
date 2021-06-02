@@ -31,7 +31,7 @@ public class LoginTest {
 
     private WebDriver driver;
 
-    private final String frontendURL = "http://localhost";
+    private final String frontendURL = "http://localhost:8080";
 
     @Autowired
     Creator creator;
