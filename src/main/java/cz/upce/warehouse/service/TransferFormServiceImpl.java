@@ -2,6 +2,7 @@ package cz.upce.warehouse.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cz.upce.warehouse.dto.TransferItemDto;
 import cz.upce.warehouse.entity.*;
 import cz.upce.warehouse.dto.TransferStateEnum;
 import cz.upce.warehouse.repository.ProductRepository;
@@ -54,8 +55,16 @@ public class TransferFormServiceImpl implements TransferFormService {
     }
 
     @Override
-    public Map<Product, Integer> getTransferForm() {
-        return transferForm;
+    public List<TransferItemDto> getTransferForm() {
+        List<TransferItemDto> list = new ArrayList<>();
+        for (Map.Entry<Product, Integer> productAmountEntry : transferForm.entrySet()) {
+            TransferItemDto itemDto = new TransferItemDto();
+            itemDto.setProductName(productAmountEntry.getKey().getProductName());
+            itemDto.setAmount(productAmountEntry.getValue());
+            itemDto.setProductId(productAmountEntry.getKey().getId());
+            list.add(itemDto);
+        }
+        return list;
     }
 
     @Override
@@ -78,19 +87,8 @@ public class TransferFormServiceImpl implements TransferFormService {
     }
 
     @Override
-    public String getTransferFormJSON() throws JsonProcessingException {
-        String json = "[";
-        for (Map.Entry<Product, Integer> entry : getTransferForm().entrySet()) {
-            json += "{\"key\":"+new ObjectMapper().writeValueAsString(entry.getKey())+", \"value\":"+entry.getValue()+"},";
-        }
-        if(!transferForm.isEmpty()) json = json.substring(0, json.length()-1);
-        json += "]";
-        return json;
-    }
-
-    @Override
-    public void update(Long id, Integer amount) {
-        Product product = productRepository.findById(id).orElseThrow(NoSuchElementException::new);
+    public void update(Long productId, Integer amount) {
+        Product product = productRepository.findById(productId).orElseThrow(NoSuchElementException::new);
         if(transferForm.containsKey(product)){
             transferForm.replace(product,amount);
         }else{

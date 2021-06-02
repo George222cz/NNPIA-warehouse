@@ -1,10 +1,12 @@
 package cz.upce.warehouse.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import cz.upce.warehouse.dto.TransferItemDto;
 import cz.upce.warehouse.service.TransferFormService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/transfer/form")
@@ -16,35 +18,35 @@ public class TransferFormController {
         this.transferFormService = transferFormService;
     }
 
-    @ExceptionHandler(JsonProcessingException.class)
-    public ResponseEntity<?> handleException(){
-        return ResponseEntity.badRequest().body("ERROR: json processing exception!");
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleException(Exception ex){
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_WAREHOUSEMAN') or hasRole('ROLE_ADMIN')")
-    public String getTransferForm() throws JsonProcessingException {
-        return transferFormService.getTransferFormJSON();
+    public List<TransferItemDto> getTransferForm() {
+        return transferFormService.getTransferForm();
     }
 
     @PostMapping("{productId}")
     @PreAuthorize("hasRole('ROLE_WAREHOUSEMAN') or hasRole('ROLE_ADMIN')")
-    public String addProductToTransfer(@PathVariable("productId") Long productId) throws JsonProcessingException {
+    public List<TransferItemDto> addProductToTransfer(@PathVariable("productId") Long productId) {
         transferFormService.add(productId);
-        return transferFormService.getTransferFormJSON();
+        return transferFormService.getTransferForm();
     }
 
     @DeleteMapping("{productId}")
     @PreAuthorize("hasRole('ROLE_WAREHOUSEMAN') or hasRole('ROLE_ADMIN')")
-    public String removeProductFromTransfer(@PathVariable("productId") Long productId) throws JsonProcessingException {
+    public List<TransferItemDto> removeProductFromTransfer(@PathVariable("productId") Long productId) {
         transferFormService.remove(productId);
-        return transferFormService.getTransferFormJSON();
+        return transferFormService.getTransferForm();
     }
 
-    @PutMapping("{productId}/{amount}")
+    @PutMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String updateProductToTransfer(@PathVariable("productId") Long productId, @PathVariable("amount") Integer amount) throws JsonProcessingException {
-        transferFormService.update(productId,amount);
-        return transferFormService.getTransferFormJSON();
+    public List<TransferItemDto> updateProductToTransfer(@RequestBody TransferItemDto transferItemDto) {
+        transferFormService.update(transferItemDto.getProductId(),transferItemDto.getAmount());
+        return transferFormService.getTransferForm();
     }
 }

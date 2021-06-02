@@ -1,10 +1,10 @@
 package cz.upce.warehouse.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import cz.upce.warehouse.entity.Product;
+import cz.upce.warehouse.dto.TransferItemDto;
 import cz.upce.warehouse.entity.User;
 
-import java.util.Map;
+import java.util.List;
 
 public interface TransferFormService {
 
@@ -12,11 +12,9 @@ public interface TransferFormService {
 
     void remove(Long id);
 
-    Map<Product, Integer> getTransferForm();
+    List<TransferItemDto> getTransferForm();
 
     void confirm(User user, String address);
 
-    String getTransferFormJSON() throws JsonProcessingException;
-
-    void update(Long id, Integer amount);
+    void update(Long productId, Integer amount);
 }
