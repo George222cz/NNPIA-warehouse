@@ -75,7 +75,7 @@ public class ServicesCooperationTest {
         transferFormService.add(product.getId());
         transferFormService.add(product.getId());
         Assertions.assertThat(transferFormService.getTransferForm().size()).isEqualTo(1);
-        Assertions.assertThat(transferFormService.getTransferForm().values().toArray()[0]).isEqualTo(2);
+        Assertions.assertThat(getLast(transferFormService.getTransferForm()).getAmount()).isEqualTo(2);
 
         // confirm of transfer-form by user and test address
         Optional<User> user = userRepository.findById(userDetails.getId());

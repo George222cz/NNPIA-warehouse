@@ -60,23 +60,26 @@ public class TransferFormTests {
 
         Assertions.assertThat(transferFormService.getTransferForm().size()).isEqualTo(1);
 
-        Assertions.assertThat(transferFormService.getTransferForm().containsKey(getLast(all))).isTrue();
+        int lastIndex = transferFormService.getTransferForm().size()-1;
+        Assertions.assertThat(transferFormService.getTransferForm().get(lastIndex).getProductId()).isEqualTo(productId);
 
-        Assertions.assertThat(transferFormService.getTransferForm().get(getLast(all))).isEqualTo(1);
-
-        transferFormService.add(productId);
-        Assertions.assertThat(transferFormService.getTransferForm().get(getLast(all))).isEqualTo(2);
+        Assertions.assertThat(transferFormService.getTransferForm().get(lastIndex).getAmount()).isEqualTo(1);
 
         transferFormService.add(productId);
-        Assertions.assertThat(transferFormService.getTransferForm().get(getLast(all))).isEqualTo(3);
+        Assertions.assertThat(transferFormService.getTransferForm().get(lastIndex).getAmount()).isEqualTo(2);
+
+        transferFormService.add(productId);
+        Assertions.assertThat(transferFormService.getTransferForm().get(lastIndex).getAmount()).isEqualTo(3);
 
         transferFormService.remove(productId);
-        Assertions.assertThat(transferFormService.getTransferForm().get(getLast(all))).isEqualTo(2);
+        Assertions.assertThat(transferFormService.getTransferForm().get(lastIndex).getAmount()).isEqualTo(2);
 
         transferFormService.remove(productId);
-        Assertions.assertThat(transferFormService.getTransferForm().get(getLast(all))).isEqualTo(1);
+        Assertions.assertThat(transferFormService.getTransferForm().get(lastIndex).getAmount()).isEqualTo(1);
 
         transferFormService.remove(productId);
-        Assertions.assertThat(transferFormService.getTransferForm().containsKey(getLast(all))).isFalse();
+        if(transferFormService.getTransferForm().size()!=0) {
+            Assertions.assertThat(transferFormService.getTransferForm().get(lastIndex).getProductId()).isNotEqualTo(productId);
+        }
     }
 }
